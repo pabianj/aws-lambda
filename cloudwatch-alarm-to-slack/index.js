@@ -95,7 +95,7 @@ function buildSlackMessage(data) {
         {
           title: 'Message',
           value: data.NewStateReason,
-          short: true
+          short: false
         },
         {
           title: 'Region',
