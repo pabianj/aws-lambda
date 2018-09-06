@@ -1,3 +1,11 @@
+# My Personal Fork
+This is forked from the [original](https://github.com/blueimp/aws-lambda)
+
+He did all this work.  It's a great starting point.
+
+Here's what I changed so far:
+* [CloudWatch alarm notifications to Slack](cloudwatch-alarm-to-slack)
+
 # AWS Lambda
 A collection of functions for [AWS Lambda](https://aws.amazon.com/lambda/).
 
@@ -5,7 +13,7 @@ A collection of functions for [AWS Lambda](https://aws.amazon.com/lambda/).
 * [Authorize the client IP for an EC2 security group](authorize-ip)
 * [Return authorized keys for EC2 SSH access](ssh-authorized-keys)
 * [Grant bucket owner full control over an S3 object](bucket-owner-full-control)
-* [CloudWatch alarm notifications to Slack](cloudwatch-alarm-to-slack)
+* __Modified:__ [CloudWatch alarm notifications to Slack](cloudwatch-alarm-to-slack)
 * [CloudWatch Events to BuildKite](cloudwatch-events-to-buildkite)
 * [CloudWatch Logs to Elastic Cloud](cloudwatch-logs-to-elastic-cloud)
 * [Elastic Beanstalk events to Slack](elastic-beanstalk-events-to-slack)
