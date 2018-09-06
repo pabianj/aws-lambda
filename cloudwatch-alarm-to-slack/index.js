@@ -4,6 +4,7 @@
  *
  * Required environment variables:
  * - webhook:     AWS KMS encrypted Slack WebHook URL.
+ *  See the README for how to encrypt a url
  *
  * Optional environment variables:
  * - channel:     Slack channel to send the messages to.
@@ -35,7 +36,7 @@ const statusColors = {
   OK: 'good'
 }
 
-function handleResponse (response, callback) {
+function handleResponse(response, callback) {
   const statusCode = response.statusCode
   console.log('Status code:', statusCode)
   let responseBody = ''
@@ -53,7 +54,7 @@ function handleResponse (response, callback) {
     })
 }
 
-function post (requestURL, data, callback) {
+function post(requestURL, data, callback) {
   const body = JSON.stringify(data)
   const options = url.parse(requestURL)
   options.method = 'POST'
@@ -73,50 +74,54 @@ function post (requestURL, data, callback) {
     .end(body)
 }
 
-function buildSlackMessage (data) {
+function buildSlackMessage(data) {
   return {
     channel: ENV.channel,
     username: ENV.username,
     icon_emoji: ENV.icon_emoji,
     icon_url: ENV.icon_url,
-    attachments: [
-      {
-        fallback: data.AlarmName,
-        title: data.AlarmName,
-        text: data.AlarmDescription,
-        color: statusColors[data.NewStateValue],
-        fields: [
-          {
-            title: 'Status',
-            value: data.NewStateValue,
-            short: true
-          },
-          {
-            title: 'Region',
-            value: data.Region,
-            short: true
-          }
-        ]
-      }
-    ]
+    attachments: [{
+      fallback: data.AlarmName,
+      title: data.AlarmName,
+      text: data.AlarmDescription,
+      color: statusColors[data.NewStateValue],
+      fields: [{
+          title: 'Status',
+          value: data.NewStateValue,
+          short: true
+        },
+        {
+          title: 'Message',
+          value: data.NewStateReason,
+          short: true
+        },
+        {
+          title: 'Region',
+          value: data.Region,
+          short: true
+        }
+      ]
+    }]
   }
 }
 
-function parseSNSMessage (message) {
+function parseSNSMessage(message) {
   console.log('SNS Message:', message)
   return JSON.parse(message)
 }
 
-function processEvent (event, context, callback) {
+function processEvent(event, context, callback) {
   console.log('Event:', JSON.stringify(event))
   const snsMessage = parseSNSMessage(event.Records[0].Sns.Message)
   const postData = buildSlackMessage(snsMessage)
   post(webhook, postData, callback)
 }
 
-function decryptAndProcess (event, context, callback) {
+function decryptAndProcess(event, context, callback) {
   const kms = new AWS.KMS()
-  const enc = { CiphertextBlob: Buffer.from(ENV.webhook, 'base64') }
+  const enc = {
+    CiphertextBlob: Buffer.from(ENV.webhook, 'base64')
+  }
   kms.decrypt(enc, (err, data) => {
     if (err) return callback(err)
     webhook = data.Plaintext.toString('ascii')
