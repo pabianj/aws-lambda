@@ -11,6 +11,7 @@
  * - username:    Bot username used for the slack messages.
  * - icon_emoji:  Bot icon emoji used for the slack messages.
  * - icon_url:    Bot icon url used for the slack messages.
+ * - aws_account: URL for your AWS account. Added to the slack messages.
  *
  * Copyright 2017, Sebastian Tschan
  * https://blueimp.net
@@ -80,6 +81,7 @@ function buildSlackMessage(data) {
     username: ENV.username,
     icon_emoji: ENV.icon_emoji,
     icon_url: ENV.icon_url,
+    aws_account: ENV.aws_account,
     attachments: [{
       fallback: data.AlarmName,
       title: data.AlarmName,
@@ -99,7 +101,12 @@ function buildSlackMessage(data) {
           title: 'Region',
           value: data.Region,
           short: true
-        }
+        },
+        {
+          title: 'AWS Account',
+          value: ENV.aws_account,
+          short: false
+}
       ]
     }]
   }

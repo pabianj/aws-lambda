@@ -39,6 +39,7 @@ channel    | Slack channel to send the notifications to.
 username   | Bot username used for the slack messages.
 icon_emoji | Bot icon emoji used for the slack messages.
 icon_url   | Bot icon url used for the slack messages.
+aws_account | URL for the AWS account. Added to the Slack message.
 
 #### How do I encrypt an URL?
 I tried many ways to figure out how to encrypt the URL.  Some of the other "SNS to Slack" examples
@@ -63,7 +64,7 @@ inline editor within Lambda.  It was nice for quick 'live' debugging.
 Mess around with Lambda.  If this is your first foray into Lambda, it's going to take a minute
 to get your sea legs.  It's fun.  You'll figure it out; don't give up.  This is a great way to get your
 feet wet, have some fun working on something new.  My guess if you are already proficient with
-node or golang, you aren't Googling for a way to do this. 
+node or golang, you aren't Googling for a way to do this.
 
 ### Logging
 I found for some reason that CloudWach Logs were not being generated and I could not create them.
